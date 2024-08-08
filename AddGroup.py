@@ -13,13 +13,21 @@ class AddGroup(unittest.TestCase):
         self.wd = webdriver.Chrome()
         self.wd.implicitly_wait(30)
     
-    def test_add_group(self):
+    def add_group(self):
         wd = self.wd
-
         self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.open_group_page(wd)
         self.create_new_group(wd, Group(name="first_group", description="description", other="something else"))
+        self.return_to_group_page(wd)
+        self.logout(wd)
+
+    def add_empty_group(self):
+        wd = self.wd
+        self.open_home_page(wd)
+        self.login(wd, username="admin", password="secret")
+        self.open_group_page(wd)
+        self.create_new_group(wd, Group(name="", description="", other=""))
         self.return_to_group_page(wd)
         self.logout(wd)
 
