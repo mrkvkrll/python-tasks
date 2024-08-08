@@ -15,7 +15,7 @@ class AddGroup(unittest.TestCase):
     def test_add_group(self):
         wd = self.wd
 
-        self.Open_home_page(wd)
+        self.open_home_page(wd)
         self.login(wd)
         self.open_group_page(wd)
         self.create_new_group(wd)
@@ -51,7 +51,7 @@ class AddGroup(unittest.TestCase):
         wd.find_element(By.NAME, "pass").send_keys("secret")
         wd.find_element(By.XPATH, "//input[@value='Login']").click()
 
-    def Open_home_page(self, wd):
+    def open_home_page(self, wd):
         wd.get("http://localhost/addressbook/")
 
     def is_element_present(self, how, what):
