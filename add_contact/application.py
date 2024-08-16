@@ -1,39 +1,26 @@
-# -*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import NoAlertPresentException
-import unittest
-from contact import Contact
 
-class AddNewContact(unittest.TestCase):
-    def setUp(self):
+
+class Application:
+    def __init__(self):
         self.wd = webdriver.Chrome()
         self.wd.implicitly_wait(30)
-    
-    def test_add_new_contact(self):
-        wd = self.wd
-        self.open_addressbook(wd)
-        self.login(wd, username="admin", password="secret")
-        self.open_add_contact_page(wd)
-        self.create_contact(wd, Contact(name="petr", middle_name="petrovich", last_name="petrov", nickname="ptr", company="yandex", address="minin strasse", home="587676586896",
-                            phone="56253687263", work="2342341323", email="petr@yandex.ru"))
-        self.save_contact(wd)
-        self.go_to_homepage(wd)
-        self.logout(wd)
 
-    def logout(self, wd):
+    def logout(self):
+        wd = self.wd
         wd.find_element(By.LINK_TEXT, "Logout").click()
 
-    def go_to_homepage(self, wd):
+    def go_to_homepage(self):
+        wd = self.wd
         wd.find_element(By.LINK_TEXT, "home page").click()
 
-    def save_contact(self, wd):
+    def save_contact(self):
+        wd = self.wd
         wd.find_element(By.XPATH, "//div[@id='content']/form/input[20]").click()
 
-    def create_contact(self, wd,contact):
+    def create_contact(self, contact):
+        wd = self.wd
         wd.find_element(By.NAME, "firstname").click()
         wd.find_element(By.NAME, "firstname").send_keys(contact.name)
         wd.find_element(By.NAME, "middlename").click()
@@ -58,30 +45,19 @@ class AddNewContact(unittest.TestCase):
         wd.find_element(By.NAME, "email").click()
         wd.find_element(By.NAME, "email").send_keys(contact.email)
 
-    def open_add_contact_page(self, wd):
+    def open_add_contact_page(self):
+        wd = self.wd
         wd.find_element(By.LINK_TEXT, "add new").click()
 
-    def login(self, wd, username, password):
+    def login(self, username, password):
+        wd = self.wd
         wd.find_element(By.NAME, "user").send_keys(username)
         wd.find_element(By.NAME, "pass").send_keys(password)
         wd.find_element(By.XPATH, "//input[@value='Login']").click()
 
-    def open_addressbook(self, wd):
+    def open_addressbook(self):
+        wd = self.wd
         wd.get("http://localhost/addressbook/")
 
-    def is_element_present(self, how, what):
-        try: self.wd.find_element(by=how, value=what)
-        except NoSuchElementException as e: return False
-        return True
-    
-    def is_alert_present(self):
-        try: self.wd.switch_to_alert()
-        except NoAlertPresentException as e: return False
-        return True
-
-    
-    def tearDown(self):
+    def destroy(self):
         self.wd.quit()
-
-if __name__ == "__main__":
-    unittest.main()
