@@ -8,12 +8,13 @@ from selenium.common.exceptions import NoAlertPresentException
 import unittest
 from group import Group
 
+
 class AddGroup(unittest.TestCase):
     def setUp(self):
         self.wd = webdriver.Chrome()
         self.wd.implicitly_wait(30)
-    
-    def add_group(self):
+
+    def test_add_group(self):
         wd = self.wd
         self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
@@ -22,7 +23,7 @@ class AddGroup(unittest.TestCase):
         self.return_to_group_page(wd)
         self.logout(wd)
 
-    def add_empty_group(self):
+    def test_add_empty_group(self):
         wd = self.wd
         self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
@@ -64,17 +65,22 @@ class AddGroup(unittest.TestCase):
         wd.get("http://localhost/addressbook/")
 
     def is_element_present(self, how, what):
-        try: self.wd.find_element(by=how, value=what)
-        except NoSuchElementException as e: return False
+        try:
+            self.wd.find_element(by=how, value=what)
+        except NoSuchElementException as e:
+            return False
         return True
-    
+
     def is_alert_present(self):
-        try: self.wd.switch_to_alert()
-        except NoAlertPresentException as e: return False
+        try:
+            self.wd.switch_to_alert()
+        except NoAlertPresentException as e:
+            return False
         return True
-    
+
     def tearDown(self):
         self.wd.quit()
+
 
 if __name__ == "__main__":
     unittest.main()
