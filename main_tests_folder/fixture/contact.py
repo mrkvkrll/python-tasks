@@ -36,6 +36,15 @@ class ContactHelper:
         wd.find_element(By.NAME, "email").send_keys(contact.email)
 
 
+    def open_contacts_page(self):
+        wd = self.app.wd
+        wd.find_element(By.LINK_TEXT, "home page").click()
+
+    def delete_first_one(self):
+        wd = self.app.wd
+        wd.find_element(By.NAME, "selected[]").click()
+        wd.find_element(By.XPATH, "//input[@value='Delete']").click()
+
     def save(self):
         wd = self.app.wd
         wd.find_element(By.XPATH, "//div[@id='content']/form/input[20]").click()
