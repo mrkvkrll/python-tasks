@@ -1,5 +1,4 @@
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from main_tests_folder.fixture.session import SessionHelper
 from main_tests_folder.fixture.group import GroupHelper
 from main_tests_folder.fixture.contact import ContactHelper
