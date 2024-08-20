@@ -43,6 +43,11 @@ class ContactHelper:
         by = self.app.by
         wd.find_element(by.LINK_TEXT, "home page").click()
 
+    def download(self):
+        wd = self.app.wd
+        by = self.app.by
+        wd.find_element(by.XPATH, "//img[@alt='vCard']").click()
+
 
     def open_edit_page(self):
         wd = self.app.wd
