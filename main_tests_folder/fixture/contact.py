@@ -4,45 +4,35 @@ class ContactHelper:
     def __init__(self, app):
         self.app = app
 
-    def open_creating_page(self):
+
+    def create_new_one(self, contact):
         wd = self.app.wd
         by = self.app.by
         wd.find_element(by.LINK_TEXT, "add new").click()
+        self.filling_out_contact_forms(contact)
+        wd.find_element(by.XPATH, "//div[@id='content']/form/input[20]").click()
 
 
-    def filling_out_contact_forms(self,contact):
+
+    def filling_out_contact_forms(self, contact):
+        self.change_field_name("firstname", contact.name)
+        self.change_field_name("middlename", contact.middle_name)
+        self.change_field_name("lastname", contact.last_name)
+        self.change_field_name("nickname", contact.nickname)
+        self.change_field_name("company", contact.company)
+        self.change_field_name("address", contact.address)
+        self.change_field_name("home", contact.home)
+        self.change_field_name("mobile", contact.phone)
+        self.change_field_name("work", contact.work)
+        self.change_field_name("email", contact.email)
+
+    def change_field_name(self, field_name, text):
         wd = self.app.wd
         by = self.app.by
-        wd.find_element(by.NAME, "firstname").click()
-        wd.find_element(by.NAME, "firstname").clear()
-        wd.find_element(by.NAME, "firstname").send_keys(contact.name)
-        wd.find_element(by.NAME, "middlename").click()
-        wd.find_element(by.NAME, "middlename").clear()
-        wd.find_element(by.NAME, "middlename").send_keys(contact.middle_name)
-        wd.find_element(by.NAME, "lastname").click()
-        wd.find_element(by.NAME, "lastname").clear()
-        wd.find_element(by.NAME, "lastname").send_keys(contact.last_name)
-        wd.find_element(by.NAME, "nickname").click()
-        wd.find_element(by.NAME, "nickname").clear()
-        wd.find_element(by.NAME, "nickname").send_keys(contact.nickname)
-        wd.find_element(by.NAME, "company").click()
-        wd.find_element(by.NAME, "company").clear()
-        wd.find_element(by.NAME, "company").send_keys(contact.company)
-        wd.find_element(by.NAME, "address").click()
-        wd.find_element(by.NAME, "address").clear()
-        wd.find_element(by.NAME, "address").send_keys(contact.address)
-        wd.find_element(by.NAME, "home").click()
-        wd.find_element(by.NAME, "home").clear()
-        wd.find_element(by.NAME, "home").send_keys(contact.home)
-        wd.find_element(by.NAME, "mobile").click()
-        wd.find_element(by.NAME, "mobile").clear()
-        wd.find_element(by.NAME, "mobile").send_keys(contact.phone)
-        wd.find_element(by.NAME, "work").click()
-        wd.find_element(by.NAME, "work").clear()
-        wd.find_element(by.NAME, "work").send_keys(contact.work)
-        wd.find_element(by.NAME, "email").click()
-        wd.find_element(by.NAME, "email").clear()
-        wd.find_element(by.NAME, "email").send_keys(contact.email)
+        if text is not None:
+            wd.find_element(by.NAME, field_name).click()
+            wd.find_element(by.NAME, field_name).clear()
+            wd.find_element(by.NAME, field_name).send_keys(text)
 
     def open_contacts_page(self):
         wd = self.app.wd
@@ -55,16 +45,18 @@ class ContactHelper:
         wd.find_element(by.XPATH, "//img[@alt='vCard']").click()
 
 
-    def open_edit_page(self):
+    def edit_first_one_contact(self, contact):
         wd = self.app.wd
         by = self.app.by
         wd.find_element(by.XPATH, "//table[@id='maintable']/tbody/tr[3]/td[8]/a/img").click()
-
-
-    def update(self):
-        wd = self.app.wd
-        by = self.app.by
+        self.filling_out_contact_forms(contact)
         wd.find_element(by.XPATH, "//input[@value='Update']").click()
+
+
+
+
+
+
 
 
 
@@ -77,10 +69,6 @@ class ContactHelper:
         wd.find_element(by.NAME, "selected[]").click()
         wd.find_element(by.XPATH, "//input[@value='Delete']").click()
 
-    def save(self):
-        wd = self.app.wd
-        by = self.app.by
-        wd.find_element(by.XPATH, "//div[@id='content']/form/input[20]").click()
 
 
     def return_to_homepage(self):
