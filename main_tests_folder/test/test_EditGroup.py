@@ -1,9 +1,17 @@
 from main_tests_folder.model.group import Group
 
-def test_edit_first_group(app):
+def test_edit_first_group_name(app):
     app.open_home_page()
     app.session.login(username="admin", password="secret")
     app.group.open_creating_page()
-    app.group.edit_first_one(Group(name="edited group", description="edited description", other="edited something else"))
+    app.group.edit_first_one(Group(name="edited_Group"))
+    app.group.return_to_groups_page()
+    app.session.logout()
+
+def test_edit_first_group_2fields(app):
+    app.open_home_page()
+    app.session.login(username="admin", password="secret")
+    app.group.open_creating_page()
+    app.group.edit_first_one(Group(name="edited Group", description="hello"))
     app.group.return_to_groups_page()
     app.session.logout()

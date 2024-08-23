@@ -37,15 +37,20 @@ class GroupHelper:
     def filling_out_forms(self,group):
         wd = self.app.wd
         by = self.app.by
-        wd.find_element(by.NAME, "group_name").click()
-        wd.find_element(by.NAME, "group_name").clear()
-        wd.find_element(by.NAME, "group_name").send_keys(group.name)
-        wd.find_element(by.NAME, "group_header").click()
-        wd.find_element(by.NAME, "group_header").clear()
-        wd.find_element(by.NAME, "group_header").send_keys(group.description)
-        wd.find_element(by.NAME, "group_footer").click()
-        wd.find_element(by.NAME, "group_footer").clear()
-        wd.find_element(by.NAME, "group_footer").send_keys(group.other)
+        if group.name is not None:
+            wd.find_element(by.NAME, "group_name").click()
+            wd.find_element(by.NAME, "group_name").clear()
+            wd.find_element(by.NAME, "group_name").send_keys(group.name)
+
+        if group.description is not None:
+            wd.find_element(by.NAME, "group_header").click()
+            wd.find_element(by.NAME, "group_header").clear()
+            wd.find_element(by.NAME, "group_header").send_keys(group.description)
+
+        if group.other is not None:
+            wd.find_element(by.NAME, "group_footer").click()
+            wd.find_element(by.NAME, "group_footer").clear()
+            wd.find_element(by.NAME, "group_footer").send_keys(group.other)
 
 
     def delete_first_one(self):
@@ -59,5 +64,3 @@ class GroupHelper:
         wd = self.app.wd
         by = self.app.by
         wd.find_element(by.LINK_TEXT, "group page").click()
-
-
