@@ -1,5 +1,4 @@
 
-
 class GroupHelper:
     def __init__(self, app):
         self.app = app
@@ -19,7 +18,7 @@ class GroupHelper:
         wd.find_element(by.NAME, "submit").click()
 
 
-    def edit_first_one(self,group):
+    def edit_first_one(self ,group):
         wd = self.app.wd
         by = self.app.by
         self.select_first_group()
@@ -34,24 +33,18 @@ class GroupHelper:
         wd.find_element(by.NAME, "selected[]").click()
 
 
-    def filling_out_forms(self,group):
+    def filling_out_forms(self, group):
+        self.change_field_name("group_name", group.name)
+        self.change_field_name("group_header", group.description)
+        self.change_field_name("group_footer", group.other)
+
+    def change_field_name(self, field_name, text):
         wd = self.app.wd
         by = self.app.by
-        if group.name is not None:
-            wd.find_element(by.NAME, "group_name").click()
-            wd.find_element(by.NAME, "group_name").clear()
-            wd.find_element(by.NAME, "group_name").send_keys(group.name)
-
-        if group.description is not None:
-            wd.find_element(by.NAME, "group_header").click()
-            wd.find_element(by.NAME, "group_header").clear()
-            wd.find_element(by.NAME, "group_header").send_keys(group.description)
-
-        if group.other is not None:
-            wd.find_element(by.NAME, "group_footer").click()
-            wd.find_element(by.NAME, "group_footer").clear()
-            wd.find_element(by.NAME, "group_footer").send_keys(group.other)
-
+        if text is not None:
+            wd.find_element(by.NAME, field_name).click()
+            wd.find_element(by.NAME, field_name).clear()
+            wd.find_element(by.NAME, field_name).send_keys(text)
 
     def delete_first_one(self):
         wd = self.app.wd
