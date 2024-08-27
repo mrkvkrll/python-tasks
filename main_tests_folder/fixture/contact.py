@@ -48,24 +48,21 @@ class ContactHelper:
     def edit_first_one_contact(self, contact):
         wd = self.app.wd
         by = self.app.by
-        wd.find_element(by.XPATH, "//table[@id='maintable']/tbody/tr[3]/td[8]/a/img").click()
+        self.app.open_home_page()
+        self.open_contacts_page()
+        #wd.find_element(by.XPATH, "//table[@id='maintable']/tbody/tr[3]/td[8]/a/img").click()
+        wd.find_element(by.NAME, "selected[]").click()
+        wd.find_element(by.XPATH("//img[@alt='Edit']").click()
         self.filling_out_contact_forms(contact)
         wd.find_element(by.XPATH, "//input[@value='Update']").click()
-
-
-
-
-
-
-
-
-
-
+        self.return_to_homepage()
 
 
     def delete_first_one(self):
         wd = self.app.wd
         by = self.app.by
+        self.app.open_home_page()
+        self.open_contacts_page()
         wd.find_element(by.NAME, "selected[]").click()
         wd.find_element(by.XPATH, "//input[@value='Delete']").click()
 
@@ -75,3 +72,11 @@ class ContactHelper:
         wd = self.app.wd
         by = self.app.by
         wd.find_element(by.LINK_TEXT, "home page").click()
+
+
+    def count(self):
+        wd = self.app.wd
+        by = self.app.by
+        self.app.open_home_page()
+        self.open_contacts_page()
+        return len(wd.find_elements(by.NAME, "selected[]"))

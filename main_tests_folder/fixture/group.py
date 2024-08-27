@@ -21,10 +21,13 @@ class GroupHelper:
     def edit_first_one(self ,group):
         wd = self.app.wd
         by = self.app.by
+        self.app.open_home_page()
+        self.open_creating_page()
         self.select_first_group()
         wd.find_element(by.NAME, "edit").click()
         self.filling_out_forms(group)
         wd.find_element(by.NAME, "update").click()
+        self.return_to_groups_page()
 
 
     def select_first_group(self):
@@ -49,11 +52,23 @@ class GroupHelper:
     def delete_first_one(self):
         wd = self.app.wd
         by = self.app.by
+        self.app.open_home_page()
+        self.open_creating_page()
         self.select_first_group()
         wd.find_element(by.NAME, "delete").click()
+        self.return_to_groups_page()
 
 
     def return_to_groups_page(self):
         wd = self.app.wd
         by = self.app.by
         wd.find_element(by.LINK_TEXT, "group page").click()
+
+
+    def count(self):
+        wd = self.app.wd
+        by = self.app.by
+        self.app.open_home_page()
+        self.open_creating_page()
+        return len(wd.find_elements(by.NAME, "selected[]"))
+
