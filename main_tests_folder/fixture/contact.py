@@ -37,7 +37,8 @@ class ContactHelper:
     def open_contacts_page(self):
         wd = self.app.wd
         by = self.app.by
-        wd.find_element(by.LINK_TEXT, "home").click()
+        if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements(by.NAME, "Number of results")) > 0):
+            wd.find_element(by.LINK_TEXT, "home").click()
 
     def download(self):
         wd = self.app.wd
@@ -71,7 +72,8 @@ class ContactHelper:
     def return_to_homepage(self):
         wd = self.app.wd
         by = self.app.by
-        wd.find_element(by.LINK_TEXT, "home page").click()
+        if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements(by.NAME, "Number of results")) > 0):
+            wd.find_element(by.LINK_TEXT, "home page").click()
 
 
     def count(self):

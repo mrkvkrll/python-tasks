@@ -24,7 +24,9 @@ class Application:
 
     def open_home_page(self):
         wd = self.wd
-        wd.get("http://localhost/addressbook/")
+        By = self.by
+        if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements(By.NAME, "Number of results")) > 0):
+            wd.get("http://localhost/addressbook/")
 
 
     def destroy(self):

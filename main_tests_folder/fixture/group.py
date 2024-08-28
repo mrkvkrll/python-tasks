@@ -7,12 +7,14 @@ class GroupHelper:
     def open_creating_page(self):
         wd = self.app.wd
         by = self.app.by
-        wd.find_element(by.LINK_TEXT, "groups").click()
+        if not (wd.current_url.endswith("/group.php") and len(wd.find_elements(by.NAME, "new")) > 0):
+            wd.find_element(by.LINK_TEXT, "groups").click()
 
 
     def create_new_one(self, group):
         wd = self.app.wd
         by = self.app.by
+        self.open_creating_page()
         wd.find_element(by.NAME, "new").click()
         self.filling_out_forms(group)
         wd.find_element(by.NAME, "submit").click()
@@ -62,7 +64,8 @@ class GroupHelper:
     def return_to_groups_page(self):
         wd = self.app.wd
         by = self.app.by
-        wd.find_element(by.LINK_TEXT, "group page").click()
+        if not (wd.current_url.endswith("/group.php") and len(wd.find_elements(by.NAME, "new")) > 0):
+            wd.find_element(by.LINK_TEXT, "group page").click()
 
 
     def count(self):
