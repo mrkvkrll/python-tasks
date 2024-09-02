@@ -14,10 +14,12 @@ class GroupHelper:
     def create_new_one(self, group):
         wd = self.app.wd
         by = self.app.by
+        self.app.open_home_page()
         self.open_creating_page()
         wd.find_element(by.NAME, "new").click()
         self.filling_out_forms(group)
         wd.find_element(by.NAME, "submit").click()
+        self.return_to_groups_page()
 
 
     def edit_first_one(self ,group):
