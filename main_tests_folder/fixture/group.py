@@ -1,10 +1,10 @@
-
+from main_tests_folder.model.group import Group
 class GroupHelper:
     def __init__(self, app):
         self.app = app
 
 
-    def open_creating_page(self):
+    def open_groups_page(self):
         wd = self.app.wd
         by = self.app.by
         if not (wd.current_url.endswith("/group.php") and len(wd.find_elements(by.NAME, "new")) > 0):
@@ -15,7 +15,7 @@ class GroupHelper:
         wd = self.app.wd
         by = self.app.by
         self.app.open_home_page()
-        self.open_creating_page()
+        self.open_groups_page()
         wd.find_element(by.NAME, "new").click()
         self.filling_out_forms(group)
         wd.find_element(by.NAME, "submit").click()
@@ -26,7 +26,7 @@ class GroupHelper:
         wd = self.app.wd
         by = self.app.by
         self.app.open_home_page()
-        self.open_creating_page()
+        self.open_groups_page()
         self.select_first_group()
         wd.find_element(by.NAME, "edit").click()
         self.filling_out_forms(group)
@@ -57,7 +57,7 @@ class GroupHelper:
         wd = self.app.wd
         by = self.app.by
         self.app.open_home_page()
-        self.open_creating_page()
+        self.open_groups_page()
         self.select_first_group()
         wd.find_element(by.NAME, "delete").click()
         self.return_to_groups_page()
@@ -74,6 +74,18 @@ class GroupHelper:
         wd = self.app.wd
         by = self.app.by
         self.app.open_home_page()
-        self.open_creating_page()
+        self.open_groups_page()
         return len(wd.find_elements(by.NAME, "selected[]"))
+
+
+    def get_group_list(self):
+        wd = self.app.wd
+        by = self.app.by
+        self.open_groups_page()
+        groups = []
+        for element in wd.find_elements(by.CSS_SELECTOR, "span.group"):
+            text = element.text
+            id = element.find_element(by.NAME, "selected[]").get_attribute("value")
+            groups.append(Group(name=text,id=id))
+        return groups
 
