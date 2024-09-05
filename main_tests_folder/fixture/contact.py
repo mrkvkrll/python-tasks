@@ -1,4 +1,4 @@
-
+from main_tests_folder.model.contact import Contact
 
 class ContactHelper:
     def __init__(self, app):
@@ -8,9 +8,12 @@ class ContactHelper:
     def create_new_one(self, contact):
         wd = self.app.wd
         by = self.app.by
+        self.app.open_home_page()
+        self.open_contacts_page()
         wd.find_element(by.LINK_TEXT, "add new").click()
         self.filling_out_contact_forms(contact)
         wd.find_element(by.XPATH, "//div[@id='content']/form/input[20]").click()
+        self.return_to_homepage()
 
 
 
@@ -37,7 +40,7 @@ class ContactHelper:
     def open_contacts_page(self):
         wd = self.app.wd
         by = self.app.by
-        if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements(by.NAME, "Number of results")) > 0):
+        if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements(by.CSS_SELECTOR, "tr[name = 'entry']")) > 0):
             wd.find_element(by.LINK_TEXT, "home").click()
 
     def download(self):
@@ -72,7 +75,7 @@ class ContactHelper:
     def return_to_homepage(self):
         wd = self.app.wd
         by = self.app.by
-        if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements(by.NAME, "Number of results")) > 0):
+        if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements(by.CSS_SELECTOR, "tr[name = 'entry']")) > 0):
             wd.find_element(by.LINK_TEXT, "home page").click()
 
 
@@ -82,3 +85,14 @@ class ContactHelper:
         self.app.open_home_page()
         self.open_contacts_page()
         return len(wd.find_elements(by.NAME, "selected[]"))
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        by = self.app.by
+        self.open_contacts_page()
+        cards = []
+        for element in wd.find_elements(by.CSS_SELECTOR, "tr[name = 'entry']"):
+            text = element.text
+            id = element.find_element(by.NAME, "selected[]").get_attribute("value")
+            cards.append(Contact(name=text, id=id))
+        return cards
