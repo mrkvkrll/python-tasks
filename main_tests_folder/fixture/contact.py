@@ -14,6 +14,7 @@ class ContactHelper:
         self.filling_out_contact_forms(contact)
         wd.find_element(by.XPATH, "//div[@id='content']/form/input[20]").click()
         self.return_to_homepage()
+        self.contact_cache = None
 
 
 
@@ -60,6 +61,7 @@ class ContactHelper:
         self.filling_out_contact_forms(contact)
         wd.find_element(by.XPATH, "//input[@value='Update']").click()
         self.return_to_homepage()
+        self.contact_cache = None
 
 
     def delete_first_one(self):
@@ -69,6 +71,7 @@ class ContactHelper:
         self.open_contacts_page()
         wd.find_element(by.NAME, "selected[]").click()
         wd.find_element(by.XPATH, "//input[@value='Delete']").click()
+        self.contact_cache = None
 
 
 
@@ -86,14 +89,18 @@ class ContactHelper:
         self.open_contacts_page()
         return len(wd.find_elements(by.NAME, "selected[]"))
 
+    contact_cache = None
+
+
     def get_contact_list(self):
-        wd = self.app.wd
-        by = self.app.by
-        self.open_contacts_page()
-        cards = []
-        for element in wd.find_elements(by.CSS_SELECTOR, "tr[name = 'entry']"):
-            id = element.find_element(by.NAME, "selected[]").get_attribute("value")
-            td_elements = element.find_elements(by.TAG_NAME, "td")
-            text_element = td_elements[2].text
-            cards.append(Contact(name=text_element, id=id))
-        return cards
+        if self.contact_cache is None:
+            wd = self.app.wd
+            by = self.app.by
+            self.open_contacts_page()
+            self.contact_cache = []
+            for element in wd.find_elements(by.CSS_SELECTOR, "tr[name = 'entry']"):
+                id = element.find_element(by.NAME, "selected[]").get_attribute("value")
+                td_elements = element.find_elements(by.TAG_NAME, "td")
+                text_element = td_elements[2].text
+                self.contact_cache.append(Contact(name=text_element, id=id))
+        return list(self.contact_cache)
