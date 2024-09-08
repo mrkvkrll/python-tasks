@@ -2,7 +2,7 @@ from main_tests_folder.model.contact import Contact
 
 
 def test_edit_contact_part(app):
-    contact = Contact(name="test", middle_name="test", last_name="test")
+    contact = Contact(name="test")
     if app.contact.count() == 0:
         app.contact.create_new_one(contact)
     old_contacts = app.contact.get_contact_list()
