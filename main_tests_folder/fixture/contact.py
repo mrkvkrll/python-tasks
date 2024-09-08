@@ -50,13 +50,17 @@ class ContactHelper:
         wd.find_element(by.XPATH, "//img[@alt='vCard']").click()
 
 
-    def edit_first_one_contact(self, contact):
+    def edit_first_one_contact(self):
+        self.edit_contact_by_index(0)
+
+
+    def edit_contact_by_index(self, index, contact):
         wd = self.app.wd
         by = self.app.by
         self.app.open_home_page()
         self.open_contacts_page()
         # wd.find_element(by.XPATH, "//table[@id='maintable']/tbody/tr[3]/td[8]/a/img").click()
-        wd.find_element(by.NAME, "selected[]").click()
+        self.select_contact_by_index(index)
         wd.find_element(by.XPATH, "//img[@alt='Edit']").click()
         self.filling_out_contact_forms(contact)
         wd.find_element(by.XPATH, "//input[@value='Update']").click()
@@ -65,15 +69,21 @@ class ContactHelper:
 
 
     def delete_first_one(self):
+        self.delete_contact_by_index(0)
+
+    def delete_contact_by_index(self, index):
         wd = self.app.wd
         by = self.app.by
         self.app.open_home_page()
         self.open_contacts_page()
-        wd.find_element(by.NAME, "selected[]").click()
+        self.select_contact_by_index(index)
         wd.find_element(by.XPATH, "//input[@value='Delete']").click()
         self.contact_cache = None
 
-
+    def select_contact_by_index(self, index):
+        wd = self.app.wd
+        by = self.app.by
+        wd.find_elements(by.NAME, "selected[]")[index].click()
 
     def return_to_homepage(self):
         wd = self.app.wd
