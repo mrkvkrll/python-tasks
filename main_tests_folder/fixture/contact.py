@@ -25,9 +25,9 @@ class ContactHelper:
         self.change_field_name("nickname", contact.nickname)
         self.change_field_name("company", contact.company)
         self.change_field_name("address", contact.address)
-        self.change_field_name("home", contact.home)
+        self.change_field_name("home", contact.home_phone)
         self.change_field_name("mobile", contact.phone)
-        self.change_field_name("work", contact.work)
+        self.change_field_name("work", contact.work_phone)
         self.change_field_name("email", contact.email)
 
     def change_field_name(self, field_name, text):
@@ -59,7 +59,6 @@ class ContactHelper:
         by = self.app.by
         self.app.open_home_page()
         self.open_contacts_page()
-        # wd.find_element(by.XPATH, "//table[@id='maintable']/tbody/tr[3]/td[8]/a/img").click()
         self.select_contact_by_index(index)
         wd.find_element(by.XPATH, "//img[@alt='Edit']").click()
         self.filling_out_contact_forms(contact)
@@ -114,3 +113,9 @@ class ContactHelper:
                 text_element = td_elements[2].text
                 self.contact_cache.append(Contact(name=text_element, id=id))
         return list(self.contact_cache)
+
+
+    def get_contact_info_from_edit_page(self):
+            wd = self.app.wd
+            by = self.app.by
+
