@@ -1,4 +1,5 @@
 from main_tests_folder.model.contact import Contact
+import re
 
 class ContactHelper:
     def __init__(self, app):
@@ -135,7 +136,7 @@ class ContactHelper:
         self.open_contacts_page()
         element = wd.find_elements(by.CSS_SELECTOR, "tr[name = 'entry']") [index]
         cell = element.find_elements(by.TAG_NAME, "td") [6]
-        cell.find_elements(by.TAG_NAME, "a").click()
+        cell.find_element(by.TAG_NAME, "a").click()
 
 
     def get_contact_info_from_edit_page(self, index):
@@ -150,6 +151,21 @@ class ContactHelper:
             work_phone = wd.find_element(by.NAME, "work").get_attribute("value")
             return Contact(id=id, first_name=first_name, last_name=last_name,
                            home_phone=home_phone, phone=phone, work_phone=work_phone)
+
+    def get_contact_from_view_page(self, index):
+        wd = self.app.wd
+        by = self.app.by
+        self.open_view_contact_by_index(index)
+        text = wd.find_element(by.ID, "content").text
+        home_phone = re.search("H: (.*)", text).group(1)
+        phone = re.search("M: (.*)", text).group(1)
+        work_phone = re.search("W: (.*)", text).group(1)
+        return Contact(home_phone=home_phone, phone=phone, work_phone=work_phone)
+
+
+
+
+
 
 
 
