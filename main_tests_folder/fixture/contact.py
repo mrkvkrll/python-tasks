@@ -19,7 +19,7 @@ class ContactHelper:
 
 
     def filling_out_contact_forms(self, contact):
-        self.change_field_name("firstname", contact.name)
+        self.change_field_name("firstname", contact.first_name)
         self.change_field_name("middlename", contact.middle_name)
         self.change_field_name("lastname", contact.last_name)
         self.change_field_name("nickname", contact.nickname)
@@ -108,14 +108,48 @@ class ContactHelper:
             self.open_contacts_page()
             self.contact_cache = []
             for element in wd.find_elements(by.CSS_SELECTOR, "tr[name = 'entry']"):
-                id = element.find_element(by.NAME, "selected[]").get_attribute("value")
                 td_elements = element.find_elements(by.TAG_NAME, "td")
-                text_element = td_elements[2].text
-                self.contact_cache.append(Contact(name=text_element, id=id))
+                id = td_elements[0].find_element(by.TAG_NAME, "input").get_attribute("value")
+                last_name = td_elements[1].text
+                first_name = td_elements[2].text
+                all_phones = td_elements[5].text.splitlines()
+                self.contact_cache.append(Contact(last_name=last_name, first_name=first_name, id=id,
+                home_phone=all_phones[0], phone=all_phones[1], work_phone=all_phones[2]))
         return list(self.contact_cache)
 
 
-    def get_contact_info_from_edit_page(self):
+    def open_contact_to_edit_by_index(self, index):
+        wd = self.app.wd
+        by = self.app.by
+        self.app.open_home_page()
+        self.open_contacts_page()
+        element = wd.find_elements(by.CSS_SELECTOR, "tr[name = 'entry']")[index]
+        cell = element.find_elements(by.TAG_NAME, "td")[7]
+        cell.find_element(by.TAG_NAME, "a").click()
+
+
+    def open_view_contact_by_index(self, index):
+        wd = self.app.wd
+        by = self.app.by
+        self.app.open_home_page()
+        self.open_contacts_page()
+        element = wd.find_elements(by.CSS_SELECTOR, "tr[name = 'entry']") [index]
+        cell = element.find_elements(by.TAG_NAME, "td") [6]
+        cell.find_elements(by.TAG_NAME, "a").click()
+
+
+    def get_contact_info_from_edit_page(self, index):
             wd = self.app.wd
             by = self.app.by
+            self.open_contact_to_edit_by_index(index)
+            id = wd.find_element(by.NAME, "id").get_attribute("value")
+            first_name = wd.find_element(by.NAME, "firstname").get_attribute("value")
+            last_name = wd.find_element(by.NAME, "lastname").get_attribute("value")
+            home_phone = wd.find_element(by.NAME, "home").get_attribute("value")
+            phone = wd.find_element(by.NAME, "mobile").get_attribute("value")
+            work_phone = wd.find_element(by.NAME, "work").get_attribute("value")
+            return Contact(id=id, first_name=first_name, last_name=last_name,
+                           home_phone=home_phone, phone=phone, work_phone=work_phone)
+
+
 

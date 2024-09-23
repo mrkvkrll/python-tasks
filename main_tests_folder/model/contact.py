@@ -2,9 +2,9 @@ from sys import maxsize
 
 class Contact:
 
-    def __init__(self,name=None, middle_name=None, last_name=None, nickname=None, company=None, address=None, home_phone=None,
+    def __init__(self,first_name=None, middle_name=None, last_name=None, nickname=None, company=None, address=None, home_phone=None,
                             phone=None, work_phone=None, email=None, id=None):
-        self.name = name
+        self.first_name = first_name
         self.middle_name = middle_name
         self.last_name = last_name
         self.nickname = nickname
@@ -22,7 +22,7 @@ class Contact:
 
 
     def __eq__(self, other):
-        return (self.id is None or other.id is None or self.id == other.id) and self.name == other.name
+        return (self.id is None or other.id is None or self.id == other.id) and self.first_name == other.first_name
 
 
     def id_or_max(self):
