@@ -113,9 +113,9 @@ class ContactHelper:
                 id = td_elements[0].find_element(by.TAG_NAME, "input").get_attribute("value")
                 last_name = td_elements[1].text
                 first_name = td_elements[2].text
-                all_phones = td_elements[5].text.splitlines()
+                all_phones = td_elements[5].text
                 self.contact_cache.append(Contact(last_name=last_name, first_name=first_name, id=id,
-                home_phone=all_phones[0], phone=all_phones[1], work_phone=all_phones[2]))
+                all_phones_from_home_page =all_phones))
         return list(self.contact_cache)
 
 
